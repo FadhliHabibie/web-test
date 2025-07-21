@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { nanoid } from 'nanoid';
 import { createClient } from '@supabase/supabase-js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -121,5 +123,12 @@ app.get('/download/:token', async (req, res) => {
     res.status(404).send(err.message);
   }
 });
+
+// Untuk __dirname di ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Static frontend
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => console.log(`✅ Backend aktif → http://localhost:${PORT}`));
